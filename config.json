@@ -1,0 +1,8 @@
+{
+    "SUB": "EDIT_ME",
+    "REFRESH_TOKEN": "EDIT_ME",
+    "AGENT": "Sidebar Updater.",
+    "REDIRECT_URI": "http://127.0.0.1:65010/authorize_callback",
+    "CLIENT_ID": "EDIT_ME",
+    "CLIENT_SECRET": "EDIT_ME"
+}
