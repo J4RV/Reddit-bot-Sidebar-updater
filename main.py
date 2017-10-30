@@ -1,11 +1,14 @@
+# coding=utf-8
 # Info:: https://praw.readthedocs.org/en/stable/ ::
 
 import schedule
-import praw
 import re
 import time
 
 import config
+
+section_exceptions = {"Ask CompHS": "Ask /r/CompetitiveHS",
+                      "WWW" :       "What’s Working and What Isn’t?"}
 
 # Searches the two stickies in the subreddit
 # Gets the current sidebar
@@ -41,8 +44,10 @@ def update_sidebar():
 
 # this function searches the current url from a section (ex: Ask CompHS) and replaces it with the newest url.
 def update_sidebar_link(sidebar, section, url):
-    if section == 'Ask CompHS':
-        section = 'Ask /r/CompetitiveHS'
+    for exception in section_exceptions:
+        if (section == exception):
+            section = section_exceptions[exception]
+            break
 
     section = section.replace('/', '\/')
     section = section.replace('?', '\?')
@@ -53,8 +58,11 @@ def update_sidebar_link(sidebar, section, url):
 
     if results:
         old_url = results.group(1)
-        sidebar = sidebar.replace(old_url, url)
-        print("Replaced link: %s with %s." % (old_url, url))
+        if old_url == url:
+            print('Did not change link in %s because it was identical' % section)
+        else:
+            sidebar = sidebar.replace(old_url, url)
+            print("Replaced link: %s with %s." % (old_url, url))
     else:
         print("'%s' didn't match any link in the sidebar" % pattern)
 
@@ -68,7 +76,6 @@ def get_sidebar():
 
 
 def set_sidebar(sidebar):
-    #r.update_settings(r.get_subreddit(config.SUB), description=sidebar)
     mod = reddit.subreddit(config.data["SUB"]).mod
     mod.update(description = sidebar)
     time_str = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime())
