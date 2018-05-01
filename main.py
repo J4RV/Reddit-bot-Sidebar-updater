@@ -8,7 +8,7 @@ import time
 import config
 
 section_exceptions = {"Ask CompHS": "Ask /r/CompetitiveHS",
-                      "WWW" :       "What’s Working and What Isn’t?"}
+                      "WWW?" :       "What’s Working and What Isn’t?"}
 
 # Searches the two stickies in the subreddit
 # Gets the current sidebar
